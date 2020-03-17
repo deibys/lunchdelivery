@@ -64,7 +64,8 @@ public class Drone implements Callable<Position[]> {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			deliveries[i] = new Position(droneCoordinate, droneFacingDirection);
+			deliveries[i] = isDeliveryWithInRange(droneCoordinate) ? new Position(droneCoordinate, droneFacingDirection)
+					: null;
 			i++;
 		}
 	    return deliveries;	
@@ -84,4 +85,10 @@ public class Drone implements Callable<Position[]> {
         }
         return 0;
 	}
+	
+	private boolean isDeliveryWithInRange(Coordinate c) {
+		return (Math.pow(c.getX(), 2) + Math.pow(c.getY(), 2)) <= 
+				Math.pow(MAX_NUMBER_BLOCKS_AWAY, 2);
+	}
+
 }
